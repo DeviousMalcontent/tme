@@ -1,2 +1,2 @@
-# tme
-A tile map editor for my verious game development projects.
+# Tile map editor
+A Tile map editor for my various game development projects.
