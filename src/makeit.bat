@@ -29,7 +29,7 @@ IF EXIST "Y:\masm32\bin\ml.exe" (set masmpath=Y:\masm32)
 IF EXIST "Z:\masm32\bin\ml.exe" (set masmpath=Z:\masm32)
 IF "%masmpath%"=="" (
 	ECHO Masm32 install path was not found.
-	ECHO Looking in each drive letter under :\masm32\bin\ml.exe	ECHO.
+	ECHO Looking in each drive letter under :\masm32\bin\ml.exe
 	ECHO.
 	ECHO You might have to edit this script or download and install masm32 SDK from https://www.masm32.com/
 	ECHO.
