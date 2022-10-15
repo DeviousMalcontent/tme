@@ -153,7 +153,6 @@
         tbTile      dd ?
         hRebar      dd ?
         hToolBar    dd ?
-             dd ?
         hStatus     dd ?
 
 IF 0  ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
@@ -171,3 +170,12 @@ ENDIF ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
   ; initialised data allocation
   ; ---------------------------
     .data
+	ButtonID50 db "Button ID  50 ",0
+    ButtonID51 db "Button ID  51 ",0
+    ButtonID52 db "Button ID  52 ",0
+    ButtonID53 db "Button ID  53 ",0
+    ButtonID54 db "Button ID  54 ",0
+    ButtonID55 db "Button ID  55 ",0
+    ButtonID56 db "Button ID  56 ",0
+    ButtonID57 db "Button ID  57 ",0
+    ButtonID58 db "Button ID  58 ",0

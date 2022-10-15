@@ -210,31 +210,31 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
       ; -------------------------------------------------------------------
         Switch wParam
           case 50
-            fn MsgboxI,hWin,"Button ID  50      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID50,ADDR szDisplayName,MB_OK,500
 
           case 51
-            fn MsgboxI,hWin,"Button ID  51      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID51,ADDR szDisplayName,MB_OK,500
 
           case 52
-            fn MsgboxI,hWin,"Button ID  52      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID52,ADDR szDisplayName,MB_OK,500
 
           case 53
-            fn MsgboxI,hWin,"Button ID  53      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID53,ADDR szDisplayName,MB_OK,500
 
           case 54
-            fn MsgboxI,hWin,"Button ID  54      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID54,ADDR szDisplayName,MB_OK,500
 
           case 55
-            fn MsgboxI,hWin,"Button ID  55      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID55,ADDR szDisplayName,MB_OK,500
 
           case 56
-            fn MsgboxI,hWin,"Button ID  56      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID56,ADDR szDisplayName,MB_OK,500
 
           case 57
-            fn MsgboxI,hWin,"Button ID  57      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID57,ADDR szDisplayName,MB_OK,500
 
           case 58
-            fn MsgboxI,hWin,"Button ID  58      ",ustr$(eax),MB_OK,500
+            invoke MsgboxI,hWin,ADDR ButtonID58,ADDR szDisplayName,MB_OK,500
 
           case 1010
             sas opatn, "All files",0,"*.*",0
