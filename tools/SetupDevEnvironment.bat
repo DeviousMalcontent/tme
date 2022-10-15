@@ -162,7 +162,8 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Wingdings 
 REM goto root
 CD /
 
-IF EXIST "tme\tools\" (
+rem IF EXIST "tme\tools\" (
+IF NOT EXIST "tme\tools\.gitignore" (
 CD "tme\tools\"
 
 REM Make .gitignore
@@ -172,6 +173,9 @@ ECHO ImageMagick/ >> .gitignore
 ECHO ImageMagick/*.* >> .gitignore
 ECHO 7zr.exe >> .gitignore
 ECHO 7z/*.* >> .gitignore
+echo 7z/ >> .gitignore
+echo iview460/*.* >> .gitignore
+echo iview460/ >> .gitignore
 
 )
 

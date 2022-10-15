@@ -1,2 +1,9 @@
 npp/*.* 
 npp/ 
+ImageMagick/ 
+ImageMagick/*.* 
+7zr.exe 
+7z/*.* 
+7z/
+iview460/*.*
+iview460/

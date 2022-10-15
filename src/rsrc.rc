@@ -7,8 +7,8 @@
 1 24 "TileMapEditor.xml"    // manifest file
 
 500 ICON MOVEABLE PURE LOADONCALL DISCARDABLE "TileMapEditor.ico"
-700 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "toolbar.bmp"
-800 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "bluegrad.bmp"
+700 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "../res/toolbar.bmp"
+800 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "../res/bluegrad.bmp"
 
 // いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
 
