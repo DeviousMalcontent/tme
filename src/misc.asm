@@ -4,7 +4,7 @@ rebar proc instance:DWORD,hParent:DWORD,htrebar:DWORD
 
     LOCAL hrbar :DWORD
 
-    fn CreateWindowEx,WS_EX_LEFT,"ReBarWindow32",NULL, \
+    invoke CreateWindowEx,WS_EX_LEFT,SADD("ReBarWindow32"),NULL, \
                       WS_VISIBLE or WS_CHILD or \
                       WS_CLIPCHILDREN or WS_CLIPSIBLINGS or \
                       RBS_VARHEIGHT or CCS_NOPARENTALIGN or CCS_NODIVIDER, \
@@ -27,7 +27,8 @@ addband proc instance:DWORD,hrbar:DWORD
     LOCAL tbhandl   :DWORD
     LOCAL rbbi      :REBARBANDINFO
 
-    mov tbhandl, rv(TBcreate,hrbar)
+    invoke TBcreate,hrbar
+    mov tbhandl, eax
 
     mov rbbi.cbSize,      sizeof REBARBANDINFO
     mov rbbi.fMask,       RBBIM_ID or RBBIM_STYLE or \
@@ -57,7 +58,8 @@ MsgboxI proc hParent:DWORD,pText:DWORD,pTitle:DWORD,mbStyle:DWORD,IconID:DWORD
 
     mov mbp.cbSize,             SIZEOF mbp
     m2m mbp.hwndOwner,          hParent
-    mov mbp.hInstance,          rv(GetModuleHandle,0)
+    invoke GetModuleHandle,0
+	mov mbp.hInstance,eax
     m2m mbp.lpszText,           pText
     m2m mbp.lpszCaption,        pTitle
     m2m mbp.dwStyle,            mbStyle
@@ -85,6 +87,10 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
     LOCAL rct       :RECT
     LOCAL banner    :DWORD
     LOCAL ttext     :DWORD
+	
+	.data   	
+
+	.code
 
       ; ------------------------------------
       ; adjust the text formatting rectangle
@@ -106,8 +112,10 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
 
     switch uMsg
       case WM_INITDIALOG
-        mov hImage, rv(GetDlgItem,hWin,999)
-        mov hStat,  rv(GetDlgItem,hWin,997)
+	    invoke GetDlgItem,hWin,999
+        mov hImage, eax
+		invoke GetDlgItem,hWin,997
+        mov hStat, eax
 
 
         invoke SetWindowText,hStat,ttext
@@ -120,7 +128,8 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
       ; ---------------------------------------------------------
       ; reuse the toolbar bitmap as the display banner background
       ; ---------------------------------------------------------
-        mov hbmp, rv(LoadImage,hInstance,800,IMAGE_BITMAP,600,bHt,LR_LOADTRANSPARENT or LR_LOADMAP3DCOLORS)
+        invoke LoadImage,hInstance,800,IMAGE_BITMAP,600,bHt,LR_LOADTRANSPARENT or LR_LOADMAP3DCOLORS
+		mov hbmp, eax
 
       ; -------------------------------------
       ; set the image into the static control
@@ -133,14 +142,16 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
         invoke PostMessage,hWin,WM_PAINT,0,0
 
       case WM_PAINT
-        mov hDC, rv(GetDC,hWin)
+	    invoke GetDC,hWin
+        mov hDC, eax
         invoke SetBkMode,hDC,TRANSPARENT
 
-        fn CreateFont,20,10,0,0,800,FALSE,FALSE,FALSE, \
-                      ANSI_CHARSET,0,0,PROOF_QUALITY,DEFAULT_PITCH,"Arial"
+        invoke CreateFont,20,10,0,0,800,FALSE,FALSE,FALSE, \
+                      ANSI_CHARSET,0,0,PROOF_QUALITY,DEFAULT_PITCH,SADD("Arial")
         mov hFont, eax
 
-        mov hOld, rv(SelectObject,hDC,hFont)
+        invoke SelectObject,hDC,hFont
+        mov hOld, eax
 
       ; --------------------
       ; draw the shadow text
@@ -180,85 +191,5 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
     ret
 
 AboutProc endp
-
-; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
-
-open_file_dialog proc hParent:DWORD,Instance:DWORD,lpTitle:DWORD,lpFilter:DWORD
-
-    LOCAL ofn:OPENFILENAME
-
-    .data?
-      openfilebuffer db 260 dup (?)
-    .code
-
-    mov eax, OFFSET openfilebuffer
-    mov BYTE PTR [eax], 0
-
-  ; --------------------
-  ; zero fill structure
-  ; --------------------
-    push edi
-    mov ecx, sizeof OPENFILENAME
-    mov al, 0
-    lea edi, ofn
-    rep stosb
-    pop edi
-
-    mov ofn.lpstrInitialDir,    CurDir$()
-    mov ofn.lStructSize,        SIZEOF OPENFILENAME
-    m2m ofn.hWndOwner,          hParent
-    m2m ofn.hInstance,          Instance
-    m2m ofn.lpstrFilter,        lpFilter
-    m2m ofn.lpstrFile,          OFFSET openfilebuffer
-    mov ofn.nMaxFile,           SIZEOF openfilebuffer
-    m2m ofn.lpstrTitle,         lpTitle
-    mov ofn.Flags,              OFN_EXPLORER or OFN_FILEMUSTEXIST or \
-                                OFN_LONGNAMES or OFN_HIDEREADONLY
-
-    invoke GetOpenFileName,ADDR ofn
-    mov eax, OFFSET openfilebuffer
-    ret
-
-open_file_dialog endp
-
-; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
-
-save_file_dialog proc hParent:DWORD,Instance:DWORD,lpTitle:DWORD,lpFilter:DWORD
-
-    LOCAL ofn:OPENFILENAME
-
-    .data?
-      savefilebuffer db 260 dup (?)
-    .code
-
-    mov eax, OFFSET savefilebuffer
-    mov BYTE PTR [eax], 0
-
-  ; --------------------
-  ; zero fill structure
-  ; --------------------
-    push edi
-    mov ecx, sizeof OPENFILENAME
-    mov al, 0
-    lea edi, ofn
-    rep stosb
-    pop edi
-
-    mov ofn.lpstrInitialDir,    CurDir$()
-    mov ofn.lStructSize,        SIZEOF OPENFILENAME
-    m2m ofn.hWndOwner,          hParent
-    m2m ofn.hInstance,          Instance
-    m2m ofn.lpstrFilter,        lpFilter
-    m2m ofn.lpstrFile,          OFFSET savefilebuffer
-    mov ofn.nMaxFile,           SIZEOF savefilebuffer
-    m2m ofn.lpstrTitle,         lpTitle
-    mov ofn.Flags,              OFN_EXPLORER or OFN_LONGNAMES or \
-                                OFN_HIDEREADONLY or OFN_OVERWRITEPROMPT
-                                
-    invoke GetSaveFileName,ADDR ofn
-    mov eax, OFFSET savefilebuffer
-    ret
-
-save_file_dialog endp
 
 ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい

@@ -41,8 +41,8 @@
         AboutProc        PROTO :DWORD,:DWORD,:DWORD,:DWORD
         MsgboxI          PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
         StatusBar        PROTO :DWORD
-        open_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
-        save_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
+        ;open_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
+        ;save_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
 ; ÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-
 
@@ -89,7 +89,7 @@
         mLOCAL tbab      :TBADDBITMAP
         mLOCAL tbb       :TBBUTTON
 
-        fn CreateWindowEx,0,"ToolbarWindow32", \
+        invoke CreateWindowEx,0,ADDR ToolbarWindow32, \
                           ADDR szDisplayName, \
                           WS_CHILD or WS_VISIBLE or TBSTYLE_FLAT or \
                           TBSTYLE_TRANSPARENT or CCS_NODIVIDER, \
@@ -179,3 +179,9 @@ ENDIF ; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
     ButtonID56 db "Button ID  56 ",0
     ButtonID57 db "Button ID  57 ",0
     ButtonID58 db "Button ID  58 ",0
+	DropFilesText db  "WM_DROPFILES",0
+	OpenFileText db "Open File",0
+	SaveFileText db "Save File As ...",0
+	Arial db "Arial",0
+   ToolbarWindow32 db "ToolbarWindow32",0
+  	ReBarWindow32 db "ReBarWindow32",0

@@ -2,9 +2,7 @@
 
     ; __UNICODE__ equ 1           ; uncomment to enable UNICODE build
 
-    .686p                       ; create 32 bit code
-    .mmx                        ; enable MMX instructions
-    .xmm                        ; enable SSE instructions
+    .386
     .model flat, stdcall        ; 32 bit memory model
     option casemap :none        ; case sensitive
 
@@ -31,12 +29,26 @@ start:
   ; ------------------
   ; set global values
   ; ------------------
-    mov hInstance,   rv(GetModuleHandle, NULL)
-    mov CommandLine, rv(GetCommandLine)
-    mov hIcon,       rv(LoadIcon,hInstance,500)
-    mov hCursor,     rv(LoadCursor,NULL,IDC_ARROW)
-    mov sWid,        rv(GetSystemMetrics,SM_CXSCREEN)
-    mov sHgt,        rv(GetSystemMetrics,SM_CYSCREEN)
+    invoke GetModuleHandle, NULL
+    mov hInstance, eax
+
+    invoke GetCommandLine
+    mov CommandLine, eax
+
+    invoke LoadIcon,hInstance,500
+    mov hIcon, eax
+
+    invoke LoadCursor,NULL,IDC_ARROW
+    mov hCursor, eax
+
+    invoke LoadCursor,NULL,IDC_ARROW
+    mov hCursor, eax
+
+    invoke GetSystemMetrics,SM_CXSCREEN
+    mov sWid, eax
+
+    invoke GetSystemMetrics,SM_CYSCREEN
+    mov sHgt, eax
 
   ; -------------------------------------------------
   ; load the toolbar button strip at its default size
@@ -48,7 +60,8 @@ start:
   ; ----------------------------------------------------------------
   ; load the rebar background tile stretching it to the rebar height
   ; ----------------------------------------------------------------
-    mov tbTile, rv(LoadImage,hInstance,800,IMAGE_BITMAP,sWid,rbht,LR_DEFAULTCOLOR)
+    invoke LoadImage,hInstance,800,IMAGE_BITMAP,sWid,rbht,LR_DEFAULTCOLOR
+    mov tbTile, eax
 
     call Main
 
@@ -238,7 +251,8 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
 
           case 1010
             sas opatn, "All files",0,"*.*",0
-            mov fname, rv(open_file_dialog,hWin,hInstance,"Open File",opatn)
+			invoke OpenFileDialog,hWin,hInstance,Addr OpenFileText,opatn
+            mov fname, eax
             cmp BYTE PTR [eax], 0
             jne @F
             return 0
@@ -250,7 +264,8 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
 
           case 1020
             sas spatn, "All files",0,"*.*",0
-            mov fname, rv(save_file_dialog,hWin,hInstance,"Save File As ...",spatn)
+			invoke SaveFileDialog,hWin,hInstance,ADDR SaveFileText,spatn
+            mov fname, eax
             cmp BYTE PTR [eax], 0
             jne @F
             return 0
@@ -275,13 +290,19 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
       ; process dropped files here
       ; --------------------------
         mov fname, DropFileName(wParam)
-        fn MsgboxI,hWin,fname,"WM_DROPFILES",MB_OK,500
+        invoke MsgboxI,hWin,fname,ADDR DropFilesText,MB_OK,500
         return 0
 
       case WM_CREATE
-        mov hRebar,   rv(rebar,hInstance,hWin,rbht)     ; create the rebar control
-        mov hToolBar, rv(addband,hInstance,hRebar)      ; add the toolbar band to it
-        mov hStatus,  rv(StatusBar,hWin)                ; create the status bar
+        invoke rebar,hInstance,hWin,rbht  ; create the rebar control
+        mov hRebar, eax
+        
+        invoke addband,hInstance,hRebar ; add the toolbar band to it
+        mov hToolBar, eax
+        
+        invoke StatusBar,hWin ; create the status bar
+        mov hStatus, eax
+
 
       case WM_SIZE
         invoke MoveWindow,hStatus,0,0,0,0,TRUE
@@ -344,7 +365,8 @@ StatusBar proc hParent:DWORD
     LOCAL handl :DWORD
     LOCAL sbParts[4] :DWORD
 
-    mov handl, rv(CreateStatusWindow,WS_CHILD or WS_VISIBLE or SBS_SIZEGRIP,NULL,hParent,200)
+    invoke CreateStatusWindow,WS_CHILD or WS_VISIBLE or SBS_SIZEGRIP,NULL,hParent,200
+    mov handl, eax
 
   ; --------------------------------------------
   ; set the width of each part, -1 for last part
