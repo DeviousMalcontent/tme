@@ -6,7 +6,7 @@
 
 1 24 "TileMapEditor.xml"    // manifest file
 
-500 ICON MOVEABLE PURE LOADONCALL DISCARDABLE "TileMapEditor.ico"
+500 ICON MOVEABLE PURE LOADONCALL DISCARDABLE "../res/tilemapeditor.ico"
 700 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "../res/toolbar.bmp"
 800 BITMAP MOVEABLE PURE LOADONCALL DISCARDABLE "../res/bluegrad.bmp"
 
@@ -56,13 +56,13 @@ BEGIN
   BEGIN
     BLOCK "040904B0"
     BEGIN
-      VALUE "CompanyName",      "Your Company Name\000"
-      VALUE "FileDescription",  "Description Of Application\000"
+      //VALUE "CompanyName",      "Your Company Name\000"
+      VALUE "FileDescription",  "A tile map editor for 2D based games\000"
       VALUE "FileVersion",      "1.0\000"
-      VALUE "InternalName",     "Item Name\000"
-      VALUE "OriginalFilename", "Original File\000"
-      VALUE "LegalCopyright",   "\251 2010-2020 Application Copyright Holder\000"
-      VALUE "ProductName",      "Item Name\000"
+      VALUE "InternalName",     "TileMapEditor\000"
+      VALUE "OriginalFilename", "TileMapEditor.exe\000"
+      // VALUE "LegalCopyright",   "\251 2010-2020 Application Copyright Holder\000"
+      VALUE "ProductName",      "Tile Map Editor\000"
       VALUE "ProductVersion",   "1.0\000"
     END
   END

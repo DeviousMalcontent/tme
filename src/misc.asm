@@ -222,12 +222,12 @@ AboutProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
         aLr equ <40>        ; lower right
         bHt equ <48>        ; set the bitmap height here
 
-        sas banner,"MASM32 Application Template",13,10,13,10
+        sas banner,"Mark's Tile Map Editor Application",13,10,13,10
 
         IFNDEF __UNICODE__
-          sas ttext,"Copyright (c) The MASM32 SDK 1998-2011",13,10,13,10,"ANSI Build"
+          sas ttext,"Built with the MASM32 SDK 1998-2011",13,10,13,10,"ANSI Build"
         ELSE
-          sas ttext,"Copyright (c) The MASM32 SDK 1998-2011",13,10,13,10,"UNICODE Build"
+          sas ttext,"Built with the MASM32 SDK 1998-2011",13,10,13,10,"UNICODE Build"
         ENDIF
 
     switch uMsg
