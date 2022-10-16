@@ -98,9 +98,6 @@ Main proc
     invoke InitCommonControlsEx,ADDR icce                   ; initialise the common control library
   ; --------------------------------------
 
-    STRING szClassName,   "TileMapEditor_Class"
-    STRING szDisplayName, "Tile Map Editor"
-
   ; ---------------------------------------------------
   ; set window class attributes in WNDCLASSEX structure
   ; ---------------------------------------------------
@@ -292,7 +289,14 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
         mov fname, DropFileName(wParam)
         invoke MsgboxI,hWin,fname,ADDR DropFilesText,MB_OK,500
         return 0
-
+		
+	  case WM_PAINT
+	  invoke CreateSolidBrush, CanvasColour
+	  
+	  invoke TileDef2DIB,DIB_WIDTH,DIB_HEIGHT
+	  
+	    invoke wmPaint, hWin
+		xor eax, eax
       case WM_CREATE
         invoke rebar,hInstance,hWin,rbht  ; create the rebar control
         mov hRebar, eax
@@ -324,6 +328,53 @@ WndProc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
     ret
 
 WndProc endp
+
+; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
+
+wmPaint proc uses ebx esi edi hWin:DWORD
+	local ps 	:PAINTSTRUCT 
+	local hBmpMem :HBITMAP
+
+	;Canvas
+	invoke BeginPaint,hWin,ADDR ps
+	xchg eax,ebx
+	invoke CreateCompatibleDC, ebx
+	xchg eax,esi
+	invoke CreateCompatibleBitmap,ebx,512,512
+	invoke SelectObject,esi,eax
+	mov hBmpMem, eax
+	
+	;Tile
+	invoke CreateCompatibleDC, ebx
+	xchg eax,edi
+	invoke SelectObject,edi,hBmp2
+	push eax
+	xor ecx,ecx
+	mov edx,Tile.bottom
+	mov eax,Tile.right
+	sub edx,Tile.top
+	sub eax,Tile.left
+	invoke BitBlt,esi,Tile.left,Tile.top,eax,edx,edi,ecx,ecx,SRCCOPY
+	push edi
+	invoke DeleteDC,edi
+
+	mov ecx,ps.rcPaint.right
+	mov edx,ps.rcPaint.bottom
+	mov eax,ps.rcPaint.left
+	mov edi,ps.rcPaint.top
+	sub ecx,eax
+	sub edx,edi
+	
+	invoke BitBlt,ebx,eax,edi,ecx,edx,esi,eax,edi, SRCCOPY
+	
+	invoke SelectObject,esi,hBmpMem
+	invoke DeleteObject,eax
+	invoke DeleteDC,esi
+	
+    invoke EndPaint,hWin,ADDR ps
+    ;mov eax, 0
+    ret
+wmPaint endp
 
 ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
 

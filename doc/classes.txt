@@ -1,0 +1,34 @@
+
+  ┌───────────────┐
+  │    misc.asm   │
+  ╞═══════════════╡
+  │rebar proc     │
+  │addband proc   │
+  │MsgboxI proc   │
+  │AboutProc proc │
+  └───────────────┘
+  
+  
+  ┌─────────────────────┐
+  │  TileMapEditor.asm  │
+  ╞═════════════════════╡
+  │WndProc proc         │
+  │TBcreate proc        │
+  │StatusBar proc       │
+  └─────────────────────┘
+  
+  ┌──────────────────────┐
+  │  TileMapEditor.inc   │
+  ╞══════════════════════╡
+  │WndProc          PROTO│
+  │MsgLoop          PROTO│
+  │Main             PROTO│
+  │rebar            PROTO│
+  │addband          PROTO│
+  │TBcreate         PROTO│
+  │AboutProc        PROTO│
+  │MsgboxI          PROTO│
+  │StatusBar        PROTO│
+  │open_file_dialog PROTO│
+  │save_file_dialog PROTO│
+  └──────────────────────┘

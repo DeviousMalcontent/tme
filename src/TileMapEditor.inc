@@ -35,14 +35,13 @@
         WndProc          PROTO :DWORD,:DWORD,:DWORD,:DWORD
         MsgLoop          PROTO
         Main             PROTO
+		wmPaint PROTO :HWND
         rebar            PROTO :DWORD,:DWORD,:DWORD
         addband          PROTO :DWORD,:DWORD
         TBcreate         PROTO :DWORD
         AboutProc        PROTO :DWORD,:DWORD,:DWORD,:DWORD
         MsgboxI          PROTO :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
         StatusBar        PROTO :DWORD
-        ;open_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
-        ;save_file_dialog PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
 ; ÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-÷-
 
@@ -154,6 +153,7 @@
         hRebar      dd ?
         hToolBar    dd ?
         hStatus     dd ?
+		hBmp2	HBITMAP ?
 
 IF 0  ; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
@@ -161,14 +161,19 @@ IF 0  ; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
 ENDIF ; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
-  .code
-    include misc.asm
-
-; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
-
   ; ---------------------------
   ; initialised data allocation
   ; ---------------------------
+	.list
+	;Tile position
+	DIB_POSX EQU 0
+	DIB_POSY EQU 64
+	
+	DIB_WIDTH EQU 8
+	DIB_HEIGHT EQU 8
+	
+	CanvasColour EQU 07F00FFh
+  
     .data
 	ButtonID50 db "Button ID  50 ",0
     ButtonID51 db "Button ID  51 ",0
@@ -185,3 +190,11 @@ ENDIF ; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 	Arial db "Arial",0
    ToolbarWindow32 db "ToolbarWindow32",0
   	ReBarWindow32 db "ReBarWindow32",0
+	szClassName     db "TileMapEditor_Class",0
+	szDisplayName   db "Tile Map Editor",0
+	Tile RECT <DIB_POSX,DIB_POSY,DIB_WIDTH+DIB_POSX,DIB_HEIGHT+DIB_POSY>
+
+  .code
+    include misc.asm
+
+; ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
