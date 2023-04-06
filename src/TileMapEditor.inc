@@ -153,7 +153,7 @@
         hRebar      dd ?
         hToolBar    dd ?
         hStatus     dd ?
-		hBmp2	HBITMAP ?
+		hBmp	HBITMAP ?
 
 IF 0  ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
 
@@ -169,6 +169,11 @@ ENDIF ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
 	DIB_POSX EQU 0
 	DIB_POSY EQU 64
 	
+	;TileB2 position
+	DIB2_POSX EQU 8
+    DIB2_POSY EQU 72
+	
+	; Tile Width and Hight 
 	DIB_WIDTH EQU 8
 	DIB_HEIGHT EQU 8
 	
@@ -188,11 +193,12 @@ ENDIF ; いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
 	OpenFileText db "Open File",0
 	SaveFileText db "Save File As ...",0
 	Arial db "Arial",0
-   ToolbarWindow32 db "ToolbarWindow32",0
-  	ReBarWindow32 db "ReBarWindow32",0
+    ToolbarWindow32 db "ToolbarWindow32",0
+  	ReBarWindow32   db "ReBarWindow32",0
 	szClassName     db "TileMapEditor_Class",0
 	szDisplayName   db "Tile Map Editor",0
-	Tile RECT <DIB_POSX,DIB_POSY,DIB_WIDTH+DIB_POSX,DIB_HEIGHT+DIB_POSY>
+    TileA1          RECT <DIB_POSX,DIB_POSY,DIB_WIDTH+DIB_POSX,DIB_HEIGHT+DIB_POSY>
+	TileB2          RECT <DIB2_POSX,DIB2_POSY,DIB_WIDTH+DIB2_POSX,DIB_HEIGHT+DIB2_POSY>
 
   .code
     include misc.asm

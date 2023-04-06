@@ -344,19 +344,33 @@ wmPaint proc uses ebx esi edi hWin:DWORD
 	invoke SelectObject,esi,eax
 	mov hBmpMem, eax
 	
-	;Tile
+	;Tile A1
 	invoke CreateCompatibleDC, ebx
 	xchg eax,edi
-	invoke SelectObject,edi,hBmp2
+	invoke SelectObject,edi,hBmp
 	push eax
 	xor ecx,ecx
-	mov edx,Tile.bottom
-	mov eax,Tile.right
-	sub edx,Tile.top
-	sub eax,Tile.left
-	invoke BitBlt,esi,Tile.left,Tile.top,eax,edx,edi,ecx,ecx,SRCCOPY
+	mov edx,TileA1.bottom
+	mov eax,TileA1.right
+	sub edx,TileA1.top
+	sub eax,TileA1.left
+	invoke BitBlt,esi,TileA1.left,TileA1.top,eax,edx,edi,ecx,ecx,SRCCOPY
 	push edi
 	invoke DeleteDC,edi
+	
+	;Tile B2
+    invoke  CreateCompatibleDC,ebx
+    xchg    eax,edi                     
+    invoke  SelectObject,edi,hbmpRedWall
+    push    eax
+    xor     ecx,ecx
+    mov     edx,TileB2.bottom
+    mov     eax,TileB2.right
+    sub     edx,TileB2.top
+    sub     eax,TileB2.left
+    invoke  BitBlt,esi,TileB2.left,TileB2.top,eax,edx,edi,ecx,ecx,SRCCOPY
+    push    edi
+    invoke  DeleteDC,edi
 
 	mov ecx,ps.rcPaint.right
 	mov edx,ps.rcPaint.bottom

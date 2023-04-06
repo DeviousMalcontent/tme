@@ -30,7 +30,7 @@ TileDef2DIB proc uses edi dwDibWidth:DWORD,dwDibHeight:DWORD
 	pop eax
 	pop edx
 	
-	mov hBmp2,eax
+	mov hBmp,eax
 	
 	mov dword ptr [edx],0FF0000h
 	mov dword ptr [edx+3],0FF0000h
